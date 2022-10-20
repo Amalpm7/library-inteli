@@ -6,6 +6,7 @@ import com.example.librarybackend.Model.LibraryModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -24,5 +25,21 @@ public class LibraryController {
     @GetMapping("/view")
     public List<LibraryModel>viewLibrary(){
         return (List<LibraryModel>) dao.findAll();
+    }
+
+
+    @CrossOrigin(origins = "*")
+    @Transactional
+    @PostMapping(path = "/deletebook", consumes = "application/json", produces = "application/json")
+    public String deletebook(@RequestBody LibraryModel library){
+        dao.deleteBookById(library.getId());
+        return "{status:success}";
+    }
+
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/searchBook", consumes = "application/json",produces = "application/json")
+    public List<LibraryModel> searchBook(@RequestBody LibraryModel library){
+        return (List<LibraryModel>) dao.searchBook(library.getBook_name());
     }
 }
