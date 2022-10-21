@@ -42,4 +42,12 @@ public class LibraryController {
     public List<LibraryModel> searchBook(@RequestBody LibraryModel library){
         return (List<LibraryModel>) dao.searchBook(library.getBook_name());
     }
+
+    @CrossOrigin(origins = "*")
+    @Transactional
+    @PostMapping(path = "/editBook",consumes = "application/json",produces = "application/json")
+    public String editBook(@RequestBody LibraryModel library){
+        dao.updateBookById(  library.getBook_name(),library.getAuthor(),  library.getDate(), library.getVolume(), library.getId());
+        return "(status:'success')";
+    }
 }
